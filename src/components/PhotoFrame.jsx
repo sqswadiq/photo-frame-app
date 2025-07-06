@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../utils/cropImage"; // You must implement this utility
+import getCroppedImg from "../utils/CropImage"; // You must implement this utility
 
 export default function PhotoFrame() {
   const [photo, setPhoto] = useState(null);
@@ -105,7 +105,7 @@ export default function PhotoFrame() {
             ref={canvasRef}
             width={500}
             height={500}
-            className="w-full max-w-full aspect-square border border-2 border-slate-250 rounded shadow-md"
+            className="w-full max-w-full aspect-square  border-2 border-slate-250 rounded shadow-md"
           />
         </div>
 
