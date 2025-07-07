@@ -2,7 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { MdAddPhotoAlternate } from "react-icons/md";
 import Cropper from "react-easy-crop";
-import getCroppedImg from "../utils/CropImage"; // You must implement this utility
+import getCroppedImg from "../utils/CropImage";
 
 export default function PhotoFrame() {
   const [photo, setPhoto] = useState(null);
@@ -10,6 +10,7 @@ export default function PhotoFrame() {
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
   const [showCropper, setShowCropper] = useState(false);
+  const [name, setName] = useState(""); // 🆕 Name input state
 
   const canvasRef = useRef(null);
 
@@ -21,7 +22,7 @@ export default function PhotoFrame() {
     frame.src = "/frame.png";
     frame.onload = () => {
       canvas.width = 500;
-      canvas.height = 500;
+      canvas.height = 500; 
       ctx.clearRect(0, 0, 500, 500);
       ctx.drawImage(frame, 0, 0, 500, 500);
     };
@@ -41,10 +42,12 @@ export default function PhotoFrame() {
       frame.src = "/frame.png";
 
       frame.onload = () => {
+        canvas.width = 500;
+        canvas.height = 500;
         ctx.clearRect(0, 0, 500, 500);
 
         const circleX = 255;
-        const circleY = 235; // Adjust based on your frame
+        const circleY = 235;
         const circleRadius = 130;
 
         // Draw circular clipped image
@@ -66,9 +69,20 @@ export default function PhotoFrame() {
 
         // Draw frame on top
         ctx.drawImage(frame, 0, 0, 500, 500);
+
+        // Draw user name below the image
+        if (name.trim() !== "") {
+          ctx.font = "bold 26px Arial";
+          ctx.fillStyle = "#1e293b"; // slate-800
+          ctx.textAlign = "center";
+          ctx.shadowColor = "rgba(0, 0, 0, 0.5)";
+          ctx.shadowOffsetY = 1;
+          ctx.shadowBlur = 1;
+          ctx.fillText(name, 250, 410); //name below circle
+        }
       };
     };
-  }, [photo]);
+  }, [photo, name]);
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
@@ -104,8 +118,8 @@ export default function PhotoFrame() {
           <canvas
             ref={canvasRef}
             width={500}
-            height={500}
-            className="w-full max-w-full aspect-square  border-2 border-slate-250 rounded shadow-md"
+            height={550}
+            className="w-full max-w-full border-2 border-slate-250 rounded shadow-md"
           />
         </div>
 
@@ -115,7 +129,8 @@ export default function PhotoFrame() {
               htmlFor="fileUpload"
               className="cursor-pointer flex items-center justify-center w-full bg-red-100 text-stone-900 border border-red-300 font-medium py-2 rounded-lg hover:bg-red-200 transition"
             >
-              <MdAddPhotoAlternate className="text-2xl text-stone-900" /> Choose Photo
+              <MdAddPhotoAlternate className="text-2xl text-stone-900" /> Choose
+              Photo
             </label>
             <input
               id="fileUpload"
@@ -125,6 +140,16 @@ export default function PhotoFrame() {
               className="hidden"
             />
           </div>
+
+          {/*  Name input */}
+          <input
+            type="text"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name"
+            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+
 
           {photo && !showCropper && (
             <button
