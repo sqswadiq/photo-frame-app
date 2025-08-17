@@ -19,7 +19,7 @@ export default function PhotoFrame() {
     const ctx = canvas.getContext("2d");
 
     const frame = new Image();
-    frame.src = "/frame.png";
+    frame.src = "/frame.webp";
     frame.onload = () => {
       canvas.width = 500;
       canvas.height = 500; 
@@ -39,7 +39,7 @@ export default function PhotoFrame() {
 
     baseImage.onload = () => {
       const frame = new Image();
-      frame.src = "/framepic.png";
+      frame.src = "/frame.webp";
 
       frame.onload = () => {
         canvas.width = 500;
