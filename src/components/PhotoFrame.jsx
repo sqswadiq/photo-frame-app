@@ -39,7 +39,7 @@ export default function PhotoFrame() {
 
     baseImage.onload = () => {
       const frame = new Image();
-      frame.src = "/frame.png";
+      frame.src = "/framepic.png";
 
       frame.onload = () => {
         canvas.width = 500;
